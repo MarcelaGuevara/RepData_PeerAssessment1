@@ -74,12 +74,24 @@ with(data, hist(total, main="Total number of steps taken each day",xlab="Number 
 Finally, we calculate the mean and median for the steps taken per day.
 
 ```r
-mean=mean(total)
-median=median(total)
+mean=with(data,tapply(steps,date,mean, na.rm=T))
+print(head(mean))
 ```
 
-So, after this analysis, we can see that the mean of steps taken per day are 9354.2295082 and the median of steps is 10395.
+```
+## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
+##        NaN    0.43750   39.41667   42.06944   46.15972   53.54167
+```
 
+```r
+median=with(data,tapply(steps,date,median, na.rm=T))
+print(head(median))
+```
+
+```
+## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
+##         NA          0          0          0          0          0
+```
 
 
 ## What is the average daily activity pattern?
@@ -186,17 +198,68 @@ mtext("Total number of steps taken each day", outer = TRUE, cex = 1.5)
 Also, we can compare the mean and median of the original data versus the new data.
 
 ```r
-mean2=mean(total1)
-median2=median(total1)
-options(scipen=999)
+mean2=with(data,tapply(steps,date,mean, na.rm=T))
+print(head(mean2))
+```
+
+```
+## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
+##   37.38260    0.43750   39.41667   42.06944   46.15972   53.54167
+```
+
+```r
+median2=with(data,tapply(steps,date,median, na.rm=T))
+print(head(median2))
+```
+
+```
+## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
+##   34.11321    0.00000    0.00000    0.00000    0.00000    0.00000
 ```
 
 The result is the following.
 
-|Original data| |New data| | 
---------------|--------|---|----|  
-|mean|median|mean|median|  
-|9354.2295|10395|10766.1887|10766.1887|  
+Mean:
+
+
+```r
+head(mean)
+```
+
+```
+## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
+##        NaN    0.43750   39.41667   42.06944   46.15972   53.54167
+```
+
+```r
+head(mean2)
+```
+
+```
+## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
+##   37.38260    0.43750   39.41667   42.06944   46.15972   53.54167
+```
+
+Median:
+
+
+```r
+head(median)
+```
+
+```
+## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
+##         NA          0          0          0          0          0
+```
+
+```r
+head(median2)
+```
+
+```
+## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
+##   34.11321    0.00000    0.00000    0.00000    0.00000    0.00000
+```
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
@@ -246,6 +309,6 @@ plot(serie.tsE,main="Weekends",xlab="Intervals",ylab="Average", col=6, lwd=1.5, 
 mtext("Average steps for each interval", outer = TRUE, cex = 1.5)
 ```
 
-![](figure/unnamed-chunk-21-1.png)<!-- -->
+![](figure/unnamed-chunk-23-1.png)<!-- -->
 
 As you can see, there is in fact a difference between the pattern in weekdays and weekends.

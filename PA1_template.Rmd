@@ -2,7 +2,9 @@
 title: 'Reproducible Research: Peer Assessment 1'
 author: "Marcela Guevara"
 date: "9/24/2020"
-output: html_document
+output:
+  html_document:
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -52,12 +54,11 @@ with(data, hist(total, main="Total number of steps taken each day",xlab="Number 
 
 Finally, we calculate the mean and median for the steps taken per day.
 ```{r}
-mean=mean(total)
-median=median(total)
+mean=with(data,tapply(steps,date,mean, na.rm=T))
+print(head(mean))
+median=with(data,tapply(steps,date,median, na.rm=T))
+print(head(median))
 ```
-
-So, after this analysis, we can see that the mean of steps taken per day are `r mean` and the median of steps is `r median`.
-
 
 
 ## What is the average daily activity pattern?
@@ -123,17 +124,27 @@ mtext("Total number of steps taken each day", outer = TRUE, cex = 1.5)
 
 Also, we can compare the mean and median of the original data versus the new data.
 ```{r}
-mean2=mean(total1)
-median2=median(total1)
-options(scipen=999)
+mean2=with(data,tapply(steps,date,mean, na.rm=T))
+print(head(mean2))
+median2=with(data,tapply(steps,date,median, na.rm=T))
+print(head(median2))
 ```
 
 The result is the following.
 
-|Original data| |New data| | 
---------------|--------|---|----|  
-|mean|median|mean|median|  
-|`r round(mean,4)`|`r median`|`r round(mean2,4)`|`r round(median2,4)`|  
+Mean:
+
+```{r}
+head(mean)
+head(mean2)
+```
+
+Median:
+
+```{r}
+head(median)
+head(median2)
+```
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
